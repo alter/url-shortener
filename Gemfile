@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'responders'
 gem 'thin'
+gem 'pg'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
