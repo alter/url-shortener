@@ -24,16 +24,12 @@ class UrlController < ApplicationController
       url.short_url = short_url
       if url.save!
         @msg = "#{root_url}#{short_url}"
-        @msg_json = { url: @msg }
+        @msg_json = { url: @msg, status: 'ok', message: 'url has been saved' }
         respond_with @msg_json, location: root_url
-=begin
-        respond_to do |format|
-          format.html { render :html => @msg }
-          format.json { render :json => msg_json }
-        end
-=end
       else
         flash[:error] = 'Unable to save message, please try again without later'
+        @msg_json = { url: '', status: 'failed', message: 'unable to save' }
+        respond_with @msg_json, location: root_url
         redirect_to root_url
       end
     end
