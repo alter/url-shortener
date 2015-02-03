@@ -19,18 +19,19 @@ class UrlController < ApplicationController
       if !full_url or full_url.nil?
         flash[:error] = "Use URL which starts from http(s)://"
         redirect_to root_url
-      end
-      url.full_url = full_url
-      url.short_url = short_url
-      if url.save!
-        @msg = "#{root_url}#{short_url}"
-        @msg_json = { url: @msg, status: 'ok', message: 'url has been saved' }
-        respond_with @msg_json, location: root_url
       else
-        flash[:error] = 'Unable to save message, please try again without later'
-        @msg_json = { url: '', status: 'failed', message: 'unable to save' }
-        respond_with @msg_json, location: root_url
-        redirect_to root_url
+        url.full_url = full_url
+        url.short_url = short_url
+        if url.save!
+          @msg = "#{root_url}#{short_url}"
+          @msg_json = { url: @msg, status: 'ok', message: 'url has been saved' }
+          respond_with @msg_json, location: root_url
+        else
+          flash[:error] = 'Unable to save message, please try again without later'
+          @msg_json = { url: '', status: 'failed', message: 'unable to save' }
+          respond_with @msg_json, location: root_url
+          redirect_to root_url
+        end
       end
     end
   end
