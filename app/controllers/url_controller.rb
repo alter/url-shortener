@@ -28,7 +28,7 @@ class UrlController < ApplicationController
   end
 
   def is_full_url_valid?( full_url )
-    response = %x[ curl -I #{full_url} | head -1 | awk '{print $2}' | tr -d '\n' ].to_i
+    response = %x[ curl -s -I #{full_url} | head -1 | awk '{print $2}' | tr -d '\n' ].to_i
     response == 0 ? false : true
   end
 
@@ -68,14 +68,18 @@ class UrlController < ApplicationController
   def show
     short_url = params[:id] if params[:id] =~ /\A[a-zA-Z0-9]{#{SHORT_URL_LENGTH}}\z/
     if short_url
-      puts "DEBUG: short_url: #{short_url.inspect}"
       record = Url.find_by( short_url: short_url )
-      puts "DEBUG: record: #{record.inspect}"
       if !record.nil?
         if record.full_url =~ /.*(:\/\/).*/
-          redirect_to record.full_url
+          @msg_json = { url: record.full_url, status: 200, message: 'url with protocol' }
+          respond_with @msg_json, location: root_url do |format|
+            format.html { redirect_to record.full_url }
+          end
         else
-          redirect_to "http://#{record.full_url}"
+          @msg_json = { url: record.full_url, status: 200, message: 'url without protocol' }
+          respond_with @msg_json, location: root_url do |format|
+            format.html { redirect_to "http://#{record.full_url}" }
+          end
         end
       else
         flash[:error] = "Message wasn't found"
