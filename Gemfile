@@ -33,6 +33,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'puma'
+gem 'mina-puma', :require => false
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
