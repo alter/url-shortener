@@ -28,7 +28,7 @@ class UrlController < ApplicationController
   end
 
   def is_full_url_valid?( full_url )
-    response = %x[ curl -s -I #{full_url} | head -1 | awk '{print $2}' | tr -d '\n' ].to_i
+    response = %x[ curl -k -s -I #{full_url} | head -1 | awk '{print $2}' | tr -d '\n' ].to_i
     response == 0 ? false : true
   end
 
