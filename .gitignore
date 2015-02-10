@@ -16,4 +16,5 @@
 !/log/.keep
 /tmp
 /*.sh
-
+# mina
+config/deploy.rb
