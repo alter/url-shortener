@@ -27,9 +27,25 @@ class UrlController < ApplicationController
     end
   end
 
+  def is_valid_param?( param )
+    result = param.chars.map { |c|
+      if( c =~ /[\w\:\/\.]/ ).nil?
+        break
+      else
+        true
+      end
+    }
+    result.nil? ? false : true
+  end
+
+
   def is_full_url_valid?( full_url )
-    response = %x[ curl -k -s -I #{full_url} | head -1 | awk '{print $2}' | tr -d '\n' ].to_i
-    response == 0 ? false : true
+    if is_valid_param? full_url
+      response = %x[ curl -k -s -I #{full_url} | head -1 | awk '{print $2}' | tr -d '\n' ].to_i
+      response == 0 ? false : true
+    else
+      false
+    end
   end
 
   def index
