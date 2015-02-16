@@ -29,7 +29,7 @@ class UrlController < ApplicationController
 
   def is_valid_param?( param )
     result = param.chars.map { |c|
-      if( c =~ /[\w\:\/\.\-]/ ).nil?
+      if( c =~ /\A[\w\:\/\.\-]\z/ ).nil?
         break
       else
         true
