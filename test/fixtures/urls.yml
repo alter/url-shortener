@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+ya:
   short_url: a0xF
   full_url: www.ya.ru
 
-two:
+mail:
   short_url: h6l1
-  full_url: http://ya.ru
+  full_url: https://mail.ru
+
+fail:
+  short_url: fail
+  full_url: data://asdf34tv4=; ls -la > /tmp/out
