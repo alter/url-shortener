@@ -41,8 +41,12 @@ class UrlController < ApplicationController
 
   def is_full_url_valid?( full_url )
     if is_valid_param? full_url
-      response = %x[ curl -k -s -I #{full_url} | head -1 | awk '{print $2}' | tr -d '\n' ].to_i
-      response == 0 ? false : true
+      begin
+        response = Curl::Easy.http_head( full_url ).header_str.split("\r\n")[0].split(/\s/)[1].to_i
+        response == 0 ? false : true
+      rescue Curl::Err::HostResolutionError
+        false
+      end
     else
       false
     end
