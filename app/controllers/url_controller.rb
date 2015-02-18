@@ -90,8 +90,8 @@ class UrlController < ApplicationController
     if short_url
       record = Url.find_by( short_url: short_url )
       if !record.nil?
+        Url.update_counters record.id, :redirected => 1
         if record.full_url =~ /.*(:\/\/).*/
-          Url.update_counters record.id, :redirected => 1
           @msg_json = { url: record.full_url, status: 200, message: 'url with protocol' }
           respond_with @msg_json, location: root_url do |format|
             format.html { redirect_to record.full_url }
